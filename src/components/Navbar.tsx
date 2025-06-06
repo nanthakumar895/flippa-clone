@@ -5,8 +5,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger } from
-'@/components/ui/dropdown-menu';
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Search, Heart, User, Menu, Bell } from 'lucide-react';
@@ -24,6 +24,10 @@ const Navbar = () => {
     }
   };
 
+  const handleQuickSearch = (query: string) => {
+    navigate(`/browse?search=${encodeURIComponent(query)}`);
+  };
+
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,17 +42,56 @@ const Navbar = () => {
 
           {/* Search Bar */}
           <div className="hidden md:flex flex-1 max-w-lg mx-8">
-            <form onSubmit={handleSearch} className="w-full">
+            <form onSubmit={handleSearch} className="w-full relative">
               <div className="relative">
                 <Input
                   type="text"
                   placeholder="Search websites, apps, domains..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4" />
-
+                  className="pl-10 pr-4"
+                />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               </div>
+              
+              {/* Search Suggestions */}
+              {searchQuery.length > 0 && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-md shadow-lg mt-1 z-50">
+                  <div className="p-2">
+                    <div className="text-xs text-gray-500 mb-2">Quick searches:</div>
+                    <div className="space-y-1">
+                      <button
+                        type="button"
+                        onClick={() => handleQuickSearch('ecommerce')}
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded"
+                      >
+                        E-commerce stores
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleQuickSearch('saas')}
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded"
+                      >
+                        SaaS businesses
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleQuickSearch('blog')}
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded"
+                      >
+                        Content sites & blogs
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleQuickSearch('marketplace')}
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded"
+                      >
+                        Marketplaces
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </form>
           </div>
 
@@ -83,8 +126,8 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {isLoggedIn ?
-            <>
+            {isLoggedIn ? (
+              <>
                 {/* Watchlist */}
                 <Button variant="ghost" size="sm" asChild>
                   <Link to="/watchlist" className="relative">
@@ -131,9 +174,9 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </> :
-
-            <>
+              </>
+            ) : (
+              <>
                 <Button variant="ghost" onClick={() => setIsLoggedIn(true)}>
                   Sign In
                 </Button>
@@ -141,7 +184,7 @@ const Navbar = () => {
                   Sign Up
                 </Button>
               </>
-            }
+            )}
 
             {/* Mobile Menu */}
             <DropdownMenu>
@@ -177,15 +220,15 @@ const Navbar = () => {
                 placeholder="Search websites, apps, domains..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4" />
-
+                className="pl-10 pr-4"
+              />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             </div>
           </form>
         </div>
       </div>
-    </nav>);
-
+    </nav>
+  );
 };
 
 export default Navbar;

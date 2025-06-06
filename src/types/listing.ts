@@ -42,6 +42,7 @@ export interface WebsiteListing {
 
 export interface FilterOptions {
   category?: string;
+  search?: string;
   minPrice?: number;
   maxPrice?: number;
   minRevenue?: number;
