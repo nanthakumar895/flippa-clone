@@ -272,7 +272,7 @@ const BrowsePage = () => {
           {(filters.category || filters.search || filters.verified || filters.minPrice || filters.maxPrice) && (
             <div className="flex flex-wrap gap-2 mt-4">
               {filters.search && (
-                <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                <Badge variant="secondary\" className="bg-blue-100 text-blue-800">
                   Search: "{filters.search}"
                   <button
                     onClick={() => handleFiltersChange({ ...filters, search: undefined })}
