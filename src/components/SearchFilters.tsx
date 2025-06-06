@@ -9,8 +9,8 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  SelectValue } from
+'@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { FilterOptions } from '@/types/listing';
 import { Filter, X } from 'lucide-react';
@@ -24,29 +24,29 @@ interface SearchFiltersProps {
 const SearchFilters: React.FC<SearchFiltersProps> = ({
   filters,
   onFiltersChange,
-  onClearFilters,
+  onClearFilters
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [priceRange, setPriceRange] = useState([filters.minPrice || 0, filters.maxPrice || 500000]);
   const [revenueRange, setRevenueRange] = useState([filters.minRevenue || 0, filters.maxRevenue || 50000]);
 
   const categories = [
-    { value: 'ecommerce', label: 'E-commerce' },
-    { value: 'saas', label: 'SaaS' },
-    { value: 'content', label: 'Content Sites' },
-    { value: 'marketplace', label: 'Marketplaces' },
-    { value: 'affiliate', label: 'Affiliate Sites' },
-    { value: 'other', label: 'Other' },
-  ];
+  { value: 'ecommerce', label: 'E-commerce' },
+  { value: 'saas', label: 'SaaS' },
+  { value: 'content', label: 'Content Sites' },
+  { value: 'marketplace', label: 'Marketplaces' },
+  { value: 'affiliate', label: 'Affiliate Sites' },
+  { value: 'other', label: 'Other' }];
+
 
   const sortOptions = [
-    { value: 'price-asc', label: 'Price: Low to High' },
-    { value: 'price-desc', label: 'Price: High to Low' },
-    { value: 'revenue-desc', label: 'Revenue: High to Low' },
-    { value: 'revenue-asc', label: 'Revenue: Low to High' },
-    { value: 'ending', label: 'Ending Soon' },
-    { value: 'watchers-desc', label: 'Most Watched' },
-  ];
+  { value: 'price-asc', label: 'Price: Low to High' },
+  { value: 'price-desc', label: 'Price: High to Low' },
+  { value: 'revenue-desc', label: 'Revenue: High to Low' },
+  { value: 'revenue-asc', label: 'Revenue: Low to High' },
+  { value: 'ending', label: 'Ending Soon' },
+  { value: 'watchers-desc', label: 'Most Watched' }];
+
 
   const updateFilters = (newFilters: Partial<FilterOptions>) => {
     onFiltersChange({ ...filters, ...newFilters });
@@ -64,9 +64,9 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
 
   const handleSortChange = (value: string) => {
     const [sortBy, sortOrder] = value.split('-');
-    updateFilters({ 
-      sortBy: sortBy as FilterOptions['sortBy'], 
-      sortOrder: sortOrder as FilterOptions['sortOrder'] 
+    updateFilters({
+      sortBy: sortBy as FilterOptions['sortBy'],
+      sortOrder: sortOrder as FilterOptions['sortOrder']
     });
   };
 
@@ -75,12 +75,12 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(amount);
   };
 
-  const hasActiveFilters = Object.values(filters).some(value => 
-    value !== undefined && value !== '' && value !== false
+  const hasActiveFilters = Object.values(filters).some((value) =>
+  value !== undefined && value !== '' && value !== false
   );
 
   return (
@@ -90,16 +90,16 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
         <Button
           variant="outline"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full justify-between"
-        >
+          className="w-full justify-between">
+
           <span className="flex items-center">
             <Filter className="h-4 w-4 mr-2" />
             Filters
-            {hasActiveFilters && (
-              <span className="ml-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+            {hasActiveFilters &&
+            <span className="ml-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
                 Active
               </span>
-            )}
+            }
           </span>
         </Button>
       </div>
@@ -110,17 +110,17 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg">Filters</CardTitle>
-              {hasActiveFilters && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onClearFilters}
-                  className="text-red-600 hover:text-red-700"
-                >
+              {hasActiveFilters &&
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onClearFilters}
+                className="text-red-600 hover:text-red-700">
+
                   <X className="h-4 w-4 mr-1" />
                   Clear All
                 </Button>
-              )}
+              }
             </div>
           </CardHeader>
           
@@ -130,17 +130,17 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
               <Label className="text-sm font-medium mb-3 block">Sort By</Label>
               <Select
                 value={`${filters.sortBy || 'price'}-${filters.sortOrder || 'asc'}`}
-                onValueChange={handleSortChange}
-              >
+                onValueChange={handleSortChange}>
+
                 <SelectTrigger>
                   <SelectValue placeholder="Sort by..." />
                 </SelectTrigger>
                 <SelectContent>
-                  {sortOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
+                  {sortOptions.map((option) =>
+                  <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -149,19 +149,19 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
             <div>
               <Label className="text-sm font-medium mb-3 block">Category</Label>
               <Select
-                value={filters.category || 'all'}
-                onValueChange={(value) => updateFilters({ category: value === 'all' ? undefined : value })}
-              >
+                value={filters.category || ''}
+                onValueChange={(value) => updateFilters({ category: value || undefined })}>
+
                 <SelectTrigger>
                   <SelectValue placeholder="All categories" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map((category) => (
-                    <SelectItem key={category.value} value={category.value}>
+                  <SelectItem value="">All Categories</SelectItem>
+                  {categories.map((category) =>
+                  <SelectItem key={category.value} value={category.value}>
                       {category.label}
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -178,8 +178,8 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
                   max={500000}
                   min={0}
                   step={5000}
-                  className="w-full"
-                />
+                  className="w-full" />
+
               </div>
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>$0</span>
@@ -199,8 +199,8 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
                   max={50000}
                   min={0}
                   step={1000}
-                  className="w-full"
-                />
+                  className="w-full" />
+
               </div>
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>$0</span>
@@ -213,8 +213,8 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
               <Checkbox
                 id="verified"
                 checked={filters.verified || false}
-                onCheckedChange={(checked) => updateFilters({ verified: checked as boolean })}
-              />
+                onCheckedChange={(checked) => updateFilters({ verified: checked as boolean })} />
+
               <Label htmlFor="verified" className="text-sm font-medium">
                 Verified listings only
               </Label>
@@ -228,24 +228,24 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
                   variant="outline"
                   size="sm"
                   onClick={() => updateFilters({ minRevenue: 5000 })}
-                  className="justify-start"
-                >
+                  className="justify-start">
+
                   $5K+ Monthly Revenue
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => updateFilters({ maxPrice: 50000 })}
-                  className="justify-start"
-                >
+                  className="justify-start">
+
                   Under $50K
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => updateFilters({ verified: true })}
-                  className="justify-start"
-                >
+                  className="justify-start">
+
                   Verified Only
                 </Button>
               </div>
@@ -253,8 +253,8 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default SearchFilters;

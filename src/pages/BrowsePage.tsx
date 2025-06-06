@@ -15,21 +15,21 @@ const BrowsePage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(true);
   const [watchlist, setWatchlist] = useState<string[]>([]);
-  
+
   const [filters, setFilters] = useState<FilterOptions>({
     category: searchParams.get('category') || undefined,
     sortBy: 'price',
-    sortOrder: 'asc',
+    sortOrder: 'asc'
   });
 
   // Update filters when URL params change
   useEffect(() => {
     const category = searchParams.get('category');
     const search = searchParams.get('search');
-    
-    setFilters(prev => ({
+
+    setFilters((prev) => ({
       ...prev,
-      category: category || undefined,
+      category: category || undefined
       // We could implement search functionality here
     }));
   }, [searchParams]);
@@ -39,33 +39,33 @@ const BrowsePage = () => {
 
     // Apply filters
     if (filters.category) {
-      filtered = filtered.filter(listing => listing.category === filters.category);
+      filtered = filtered.filter((listing) => listing.category === filters.category);
     }
 
     if (filters.minPrice !== undefined) {
-      filtered = filtered.filter(listing => listing.price >= filters.minPrice!);
+      filtered = filtered.filter((listing) => listing.price >= filters.minPrice!);
     }
 
     if (filters.maxPrice !== undefined) {
-      filtered = filtered.filter(listing => listing.price <= filters.maxPrice!);
+      filtered = filtered.filter((listing) => listing.price <= filters.maxPrice!);
     }
 
     if (filters.minRevenue !== undefined) {
-      filtered = filtered.filter(listing => listing.monthlyRevenue >= filters.minRevenue!);
+      filtered = filtered.filter((listing) => listing.monthlyRevenue >= filters.minRevenue!);
     }
 
     if (filters.maxRevenue !== undefined) {
-      filtered = filtered.filter(listing => listing.monthlyRevenue <= filters.maxRevenue!);
+      filtered = filtered.filter((listing) => listing.monthlyRevenue <= filters.maxRevenue!);
     }
 
     if (filters.verified) {
-      filtered = filtered.filter(listing => listing.isVerified);
+      filtered = filtered.filter((listing) => listing.isVerified);
     }
 
     // Apply sorting
     filtered.sort((a, b) => {
       let aValue, bValue;
-      
+
       switch (filters.sortBy) {
         case 'price':
           aValue = a.price;
@@ -91,7 +91,7 @@ const BrowsePage = () => {
           aValue = a.price;
           bValue = b.price;
       }
-      
+
       const modifier = filters.sortOrder === 'desc' ? -1 : 1;
       return (aValue - bValue) * modifier;
     });
@@ -101,7 +101,7 @@ const BrowsePage = () => {
 
   const handleFiltersChange = (newFilters: FilterOptions) => {
     setFilters(newFilters);
-    
+
     // Update URL params
     const params = new URLSearchParams(searchParams);
     if (newFilters.category) {
@@ -115,23 +115,23 @@ const BrowsePage = () => {
   const handleClearFilters = () => {
     setFilters({
       sortBy: 'price',
-      sortOrder: 'asc',
+      sortOrder: 'asc'
     });
     setSearchParams({});
   };
 
   const handleAddToWatchlist = (listingId: string) => {
     if (watchlist.includes(listingId)) {
-      setWatchlist(prev => prev.filter(id => id !== listingId));
+      setWatchlist((prev) => prev.filter((id) => id !== listingId));
       toast({
         title: "Removed from watchlist",
-        description: "The listing has been removed from your watchlist.",
+        description: "The listing has been removed from your watchlist."
       });
     } else {
-      setWatchlist(prev => [...prev, listingId]);
+      setWatchlist((prev) => [...prev, listingId]);
       toast({
         title: "Added to watchlist",
-        description: "The listing has been added to your watchlist.",
+        description: "The listing has been added to your watchlist."
       });
     }
   };
@@ -139,16 +139,16 @@ const BrowsePage = () => {
   const getCategoryTitle = () => {
     const category = searchParams.get('category');
     if (!category) return 'All Listings';
-    
+
     const categoryMap: Record<string, string> = {
       ecommerce: 'E-commerce Sites',
       saas: 'SaaS Businesses',
       content: 'Content Sites',
       marketplace: 'Marketplaces',
       affiliate: 'Affiliate Sites',
-      other: 'Other Businesses',
+      other: 'Other Businesses'
     };
-    
+
     return categoryMap[category] || 'All Listings';
   };
 
@@ -172,8 +172,8 @@ const BrowsePage = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowFilters(!showFilters)}
-                className="lg:hidden"
-              >
+                className="lg:hidden">
+
                 <SlidersHorizontal className="h-4 w-4 mr-2" />
                 Filters
               </Button>
@@ -182,15 +182,15 @@ const BrowsePage = () => {
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="sm"
-                  onClick={() => setViewMode('grid')}
-                >
+                  onClick={() => setViewMode('grid')}>
+
                   <Grid className="h-4 w-4" />
                 </Button>
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="sm"
-                  onClick={() => setViewMode('list')}
-                >
+                  onClick={() => setViewMode('list')}>
+
                   <List className="h-4 w-4" />
                 </Button>
               </div>
@@ -198,66 +198,66 @@ const BrowsePage = () => {
           </div>
 
           {/* Active Filters */}
-          {(filters.category || filters.verified || filters.minPrice || filters.maxPrice) && (
-            <div className="flex flex-wrap gap-2 mt-4">
-              {filters.category && (
-                <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+          {(filters.category || filters.verified || filters.minPrice || filters.maxPrice) &&
+          <div className="flex flex-wrap gap-2 mt-4">
+              {filters.category &&
+            <Badge variant="secondary" className="bg-blue-100 text-blue-800">
                   Category: {filters.category}
-                  <button 
-                    onClick={() => handleFiltersChange({ ...filters, category: undefined })}
-                    className="ml-2 hover:text-blue-600"
-                  >
+                  <button
+                onClick={() => handleFiltersChange({ ...filters, category: undefined })}
+                className="ml-2 hover:text-blue-600">
+
                     ×
                   </button>
                 </Badge>
-              )}
-              {filters.verified && (
-                <Badge variant="secondary" className="bg-green-100 text-green-800">
+            }
+              {filters.verified &&
+            <Badge variant="secondary" className="bg-green-100 text-green-800">
                   Verified Only
-                  <button 
-                    onClick={() => handleFiltersChange({ ...filters, verified: false })}
-                    className="ml-2 hover:text-green-600"
-                  >
+                  <button
+                onClick={() => handleFiltersChange({ ...filters, verified: false })}
+                className="ml-2 hover:text-green-600">
+
                     ×
                   </button>
                 </Badge>
-              )}
-              {(filters.minPrice || filters.maxPrice) && (
-                <Badge variant="secondary" className="bg-purple-100 text-purple-800">
+            }
+              {(filters.minPrice || filters.maxPrice) &&
+            <Badge variant="secondary" className="bg-purple-100 text-purple-800">
                   Price: ${filters.minPrice || 0}K - ${filters.maxPrice || 500}K
-                  <button 
-                    onClick={() => handleFiltersChange({ 
-                      ...filters, 
-                      minPrice: undefined, 
-                      maxPrice: undefined 
-                    })}
-                    className="ml-2 hover:text-purple-600"
-                  >
+                  <button
+                onClick={() => handleFiltersChange({
+                  ...filters,
+                  minPrice: undefined,
+                  maxPrice: undefined
+                })}
+                className="ml-2 hover:text-purple-600">
+
                     ×
                   </button>
                 </Badge>
-              )}
+            }
             </div>
-          )}
+          }
         </div>
 
         {/* Main Content */}
         <div className="flex gap-8">
           {/* Filters Sidebar */}
-          {showFilters && (
-            <div className="w-full lg:w-80 flex-shrink-0">
+          {showFilters &&
+          <div className="w-full lg:w-80 flex-shrink-0">
               <SearchFilters
-                filters={filters}
-                onFiltersChange={handleFiltersChange}
-                onClearFilters={handleClearFilters}
-              />
+              filters={filters}
+              onFiltersChange={handleFiltersChange}
+              onClearFilters={handleClearFilters} />
+
             </div>
-          )}
+          }
 
           {/* Listings */}
           <div className="flex-1">
-            {filteredAndSortedListings.length === 0 ? (
-              <Card>
+            {filteredAndSortedListings.length === 0 ?
+            <Card>
                 <CardContent className="py-12 text-center">
                   <div className="text-gray-500 mb-4">
                     <Grid className="h-12 w-12 mx-auto mb-4 opacity-50" />
@@ -270,27 +270,27 @@ const BrowsePage = () => {
                   </p>
                   <Button onClick={handleClearFilters}>Clear All Filters</Button>
                 </CardContent>
-              </Card>
-            ) : (
-              <div className={
-                viewMode === 'grid'
-                  ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
-                  : 'space-y-6'
-              }>
-                {filteredAndSortedListings.map((listing) => (
-                  <ListingCard
-                    key={listing.id}
-                    listing={listing}
-                    onAddToWatchlist={handleAddToWatchlist}
-                  />
-                ))}
+              </Card> :
+
+            <div className={
+            viewMode === 'grid' ?
+            'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6' :
+            'space-y-6'
+            }>
+                {filteredAndSortedListings.map((listing) =>
+              <ListingCard
+                key={listing.id}
+                listing={listing}
+                onAddToWatchlist={handleAddToWatchlist} />
+
+              )}
               </div>
-            )}
+            }
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default BrowsePage;

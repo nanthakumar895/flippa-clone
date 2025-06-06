@@ -20,14 +20,14 @@ import {
   Shield,
   Star,
   ArrowLeft,
-  ExternalLink,
-} from 'lucide-react';
+  ExternalLink } from
+'lucide-react';
 import { mockListings } from '@/data/mockListings';
 import { toast } from '@/hooks/use-toast';
 
 const ListingDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const listing = mockListings.find(l => l.id === id);
+  const { id } = useParams<{id: string;}>();
+  const listing = mockListings.find((l) => l.id === id);
   const [bidAmount, setBidAmount] = useState('');
   const [isWatching, setIsWatching] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -44,8 +44,8 @@ const ListingDetailPage = () => {
             </Button>
           </CardContent>
         </Card>
-      </div>
-    );
+      </div>);
+
   }
 
   const formatCurrency = (amount: number) => {
@@ -53,7 +53,7 @@ const ListingDetailPage = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(amount);
   };
 
@@ -69,17 +69,17 @@ const ListingDetailPage = () => {
 
   const getTimeRemaining = () => {
     if (!listing.auctionEndDate) return null;
-    
+
     const now = new Date();
     const end = new Date(listing.auctionEndDate);
     const diff = end.getTime() - now.getTime();
-    
+
     if (diff <= 0) return 'Ended';
-    
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
+    const hours = Math.floor(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+    const minutes = Math.floor(diff % (1000 * 60 * 60) / (1000 * 60));
+
     if (days > 0) return `${days}d ${hours}h ${minutes}m`;
     if (hours > 0) return `${hours}h ${minutes}m`;
     return `${minutes}m`;
@@ -91,14 +91,14 @@ const ListingDetailPage = () => {
       toast({
         title: "Invalid bid amount",
         description: "Bid must be higher than the current bid.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
 
     toast({
       title: "Bid placed successfully!",
-      description: `Your bid of ${formatCurrency(amount)} has been placed.`,
+      description: `Your bid of ${formatCurrency(amount)} has been placed.`
     });
     setBidAmount('');
   };
@@ -107,9 +107,9 @@ const ListingDetailPage = () => {
     setIsWatching(!isWatching);
     toast({
       title: isWatching ? "Removed from watchlist" : "Added to watchlist",
-      description: isWatching 
-        ? "This listing has been removed from your watchlist."
-        : "You'll be notified of important updates.",
+      description: isWatching ?
+      "This listing has been removed from your watchlist." :
+      "You'll be notified of important updates."
     });
   };
 
@@ -120,7 +120,7 @@ const ListingDetailPage = () => {
       content: 'bg-purple-100 text-purple-800',
       marketplace: 'bg-orange-100 text-orange-800',
       affiliate: 'bg-yellow-100 text-yellow-800',
-      other: 'bg-gray-100 text-gray-800',
+      other: 'bg-gray-100 text-gray-800'
     };
     return colors[category as keyof typeof colors] || colors.other;
   };
@@ -150,21 +150,21 @@ const ListingDetailPage = () => {
                       <Badge className={getCategoryColor(listing.category)}>
                         {listing.category.charAt(0).toUpperCase() + listing.category.slice(1)}
                       </Badge>
-                      {listing.isVerified && (
-                        <Badge variant="secondary" className="bg-green-100 text-green-800">
+                      {listing.isVerified &&
+                      <Badge variant="secondary" className="bg-green-100 text-green-800">
                           <Shield className="h-3 w-3 mr-1" />
                           Verified
                         </Badge>
-                      )}
+                      }
                     </div>
                     <h1 className="text-2xl font-bold text-gray-900">{listing.title}</h1>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <a 
-                        href={`https://${listing.url}`} 
-                        target="_blank" 
+                      <a
+                        href={`https://${listing.url}`}
+                        target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center text-blue-600 hover:text-blue-700"
-                      >
+                        className="flex items-center text-blue-600 hover:text-blue-700">
+
                         {listing.url}
                         <ExternalLink className="h-3 w-3 ml-1" />
                       </a>
@@ -196,24 +196,24 @@ const ListingDetailPage = () => {
                   <img
                     src={listing.images[currentImageIndex]}
                     alt={listing.title}
-                    className="w-full h-full object-cover"
-                  />
+                    className="w-full h-full object-cover" />
+
                 </div>
-                {listing.images.length > 1 && (
-                  <div className="flex gap-2 p-4">
-                    {listing.images.map((image, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`w-16 h-16 rounded-lg overflow-hidden border-2 ${
-                          index === currentImageIndex ? 'border-blue-500' : 'border-gray-200'
-                        }`}
-                      >
+                {listing.images.length > 1 &&
+                <div className="flex gap-2 p-4">
+                    {listing.images.map((image, index) =>
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-16 h-16 rounded-lg overflow-hidden border-2 ${
+                    index === currentImageIndex ? 'border-blue-500' : 'border-gray-200'}`
+                    }>
+
                         <img src={image} alt={`${listing.title} ${index + 1}`} className="w-full h-full object-cover" />
                       </button>
-                    ))}
+                  )}
                   </div>
-                )}
+                }
               </CardContent>
             </Card>
 
@@ -242,9 +242,9 @@ const ListingDetailPage = () => {
                       <div>
                         <h4 className="font-medium mb-2">Revenue Streams</h4>
                         <ul className="text-gray-600 space-y-1">
-                          {listing.financials.revenueStreams.map((stream, index) => (
-                            <li key={index}>• {stream}</li>
-                          ))}
+                          {listing.financials.revenueStreams.map((stream, index) =>
+                          <li key={index}>• {stream}</li>
+                          )}
                         </ul>
                       </div>
                     </div>
@@ -276,12 +276,12 @@ const ListingDetailPage = () => {
                         </div>
                         <div>
                           <h4 className="font-medium mb-2">Profit Margin</h4>
-                          <Progress 
-                            value={(listing.monthlyProfit / listing.monthlyRevenue) * 100} 
-                            className="h-2"
-                          />
+                          <Progress
+                            value={listing.monthlyProfit / listing.monthlyRevenue * 100}
+                            className="h-2" />
+
                           <p className="text-sm text-gray-600 mt-1">
-                            {((listing.monthlyProfit / listing.monthlyRevenue) * 100).toFixed(1)}%
+                            {(listing.monthlyProfit / listing.monthlyRevenue * 100).toFixed(1)}%
                           </p>
                         </div>
                       </div>
@@ -341,14 +341,14 @@ const ListingDetailPage = () => {
                       </div>
                     </div>
                     
-                    {listing.metrics.emailSubscribers && (
-                      <div className="mt-4">
+                    {listing.metrics.emailSubscribers &&
+                    <div className="mt-4">
                         <h4 className="font-medium mb-2">Email Marketing</h4>
                         <p className="text-gray-600">
                           {formatNumber(listing.metrics.emailSubscribers)} email subscribers
                         </p>
                       </div>
-                    )}
+                    }
                   </div>
                 </TabsContent>
                 
@@ -356,9 +356,9 @@ const ListingDetailPage = () => {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Technology Stack</h3>
                     <div className="flex flex-wrap gap-2">
-                      {listing.technologies.map((tech, index) => (
-                        <Badge key={index} variant="outline">{tech}</Badge>
-                      ))}
+                      {listing.technologies.map((tech, index) =>
+                      <Badge key={index} variant="outline">{tech}</Badge>
+                      )}
                     </div>
                   </div>
                 </TabsContent>
@@ -374,66 +374,66 @@ const ListingDetailPage = () => {
                 <CardTitle>Purchase Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {listing.currentBid ? (
-                  <div>
+                {listing.currentBid ?
+                <div>
                     <div className="text-sm text-gray-500">Current Bid</div>
                     <div className="text-2xl font-bold text-green-600">
                       {formatCurrency(listing.currentBid)}
                     </div>
-                    {listing.auctionEndDate && (
-                      <div className="flex items-center text-sm text-orange-600 mt-2">
+                    {listing.auctionEndDate &&
+                  <div className="flex items-center text-sm text-orange-600 mt-2">
                         <Clock className="h-4 w-4 mr-1" />
                         {getTimeRemaining()} remaining
                       </div>
-                    )}
-                  </div>
-                ) : (
-                  <div>
+                  }
+                  </div> :
+
+                <div>
                     <div className="text-sm text-gray-500">Asking Price</div>
                     <div className="text-2xl font-bold">
                       {formatCurrency(listing.price)}
                     </div>
                   </div>
-                )}
+                }
 
-                {listing.buyNowPrice && (
-                  <div>
+                {listing.buyNowPrice &&
+                <div>
                     <div className="text-sm text-gray-500">Buy It Now</div>
                     <div className="text-xl font-semibold text-blue-600">
                       {formatCurrency(listing.buyNowPrice)}
                     </div>
                   </div>
-                )}
+                }
 
                 <Separator />
 
-                {listing.currentBid ? (
-                  <div className="space-y-3">
+                {listing.currentBid ?
+                <div className="space-y-3">
                     <div>
                       <Label htmlFor="bid-amount">Your Bid Amount</Label>
                       <Input
-                        id="bid-amount"
-                        type="number"
-                        placeholder={`Minimum: ${formatCurrency((listing.currentBid || 0) + 1000)}`}
-                        value={bidAmount}
-                        onChange={(e) => setBidAmount(e.target.value)}
-                      />
+                      id="bid-amount"
+                      type="number"
+                      placeholder={`Minimum: ${formatCurrency((listing.currentBid || 0) + 1000)}`}
+                      value={bidAmount}
+                      onChange={(e) => setBidAmount(e.target.value)} />
+
                     </div>
                     <Button className="w-full" onClick={handleBid}>
                       Place Bid
                     </Button>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
+                  </div> :
+
+                <div className="space-y-3">
                     <Button className="w-full">Make Offer</Button>
                   </div>
-                )}
+                }
 
-                {listing.buyNowPrice && (
-                  <Button variant="outline" className="w-full">
+                {listing.buyNowPrice &&
+                <Button variant="outline" className="w-full">
                     Buy It Now - {formatCurrency(listing.buyNowPrice)}
                   </Button>
-                )}
+                }
               </CardContent>
             </Card>
 
@@ -458,7 +458,7 @@ const ListingDetailPage = () => {
                 <div className="flex justify-between">
                   <span className="text-gray-600">ROI (Annual)</span>
                   <span className="font-semibold text-blue-600">
-                    {((listing.metrics.profit12Month / listing.price) * 100).toFixed(1)}%
+                    {(listing.metrics.profit12Month / listing.price * 100).toFixed(1)}%
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -469,30 +469,30 @@ const ListingDetailPage = () => {
             </Card>
 
             {/* Bid History */}
-            {listing.bidHistory && listing.bidHistory.length > 0 && (
-              <Card>
+            {listing.bidHistory && listing.bidHistory.length > 0 &&
+            <Card>
                 <CardHeader>
                   <CardTitle>Recent Bids</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {listing.bidHistory.slice(0, 5).map((bid, index) => (
-                      <div key={index} className="flex justify-between items-center">
+                    {listing.bidHistory.slice(0, 5).map((bid, index) =>
+                  <div key={index} className="flex justify-between items-center">
                         <span className="text-sm font-medium">{formatCurrency(bid.amount)}</span>
                         <span className="text-xs text-gray-500">
                           {new Date(bid.timestamp).toLocaleDateString()}
                         </span>
                       </div>
-                    ))}
+                  )}
                   </div>
                 </CardContent>
               </Card>
-            )}
+            }
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default ListingDetailPage;

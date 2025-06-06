@@ -5,8 +5,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger } from
+'@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Search, Heart, User, Menu, Bell } from 'lucide-react';
@@ -45,8 +45,8 @@ const Navbar = () => {
                   placeholder="Search websites, apps, domains..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4"
-                />
+                  className="pl-10 pr-4" />
+
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               </div>
             </form>
@@ -83,8 +83,8 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {isLoggedIn ? (
-              <>
+            {isLoggedIn ?
+            <>
                 {/* Watchlist */}
                 <Button variant="ghost" size="sm" asChild>
                   <Link to="/watchlist" className="relative">
@@ -131,9 +131,9 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </>
-            ) : (
-              <>
+              </> :
+
+            <>
                 <Button variant="ghost" onClick={() => setIsLoggedIn(true)}>
                   Sign In
                 </Button>
@@ -141,7 +141,7 @@ const Navbar = () => {
                   Sign Up
                 </Button>
               </>
-            )}
+            }
 
             {/* Mobile Menu */}
             <DropdownMenu>
@@ -177,15 +177,15 @@ const Navbar = () => {
                 placeholder="Search websites, apps, domains..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4"
-              />
+                className="pl-10 pr-4" />
+
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             </div>
           </form>
         </div>
       </div>
-    </nav>
-  );
+    </nav>);
+
 };
 
 export default Navbar;

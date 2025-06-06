@@ -17,7 +17,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(amount);
   };
 
@@ -33,16 +33,16 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
 
   const getTimeRemaining = () => {
     if (!listing.auctionEndDate) return null;
-    
+
     const now = new Date();
     const end = new Date(listing.auctionEndDate);
     const diff = end.getTime() - now.getTime();
-    
+
     if (diff <= 0) return 'Ended';
-    
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
+    const hours = Math.floor(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+
     if (days > 0) return `${days}d ${hours}h`;
     return `${hours}h`;
   };
@@ -54,7 +54,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
       content: 'bg-purple-100 text-purple-800',
       marketplace: 'bg-orange-100 text-orange-800',
       affiliate: 'bg-yellow-100 text-yellow-800',
-      other: 'bg-gray-100 text-gray-800',
+      other: 'bg-gray-100 text-gray-800'
     };
     return colors[category as keyof typeof colors] || colors.other;
   };
@@ -66,8 +66,8 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
           variant="ghost"
           size="sm"
           className="h-8 w-8 p-0 bg-white/80 hover:bg-white"
-          onClick={() => onAddToWatchlist?.(listing.id)}
-        >
+          onClick={() => onAddToWatchlist?.(listing.id)}>
+
           <Heart className="h-4 w-4" />
         </Button>
       </div>
@@ -77,8 +77,8 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
           <img
             src={listing.images[0]}
             alt={listing.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+
         </div>
         
         <div className="space-y-2">
@@ -86,11 +86,11 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
             <Badge className={getCategoryColor(listing.category)}>
               {listing.category.charAt(0).toUpperCase() + listing.category.slice(1)}
             </Badge>
-            {listing.isVerified && (
-              <Badge variant="secondary" className="bg-green-100 text-green-800">
+            {listing.isVerified &&
+            <Badge variant="secondary" className="bg-green-100 text-green-800">
                 Verified
               </Badge>
-            )}
+            }
           </div>
           
           <h3 className="font-semibold text-lg leading-tight group-hover:text-blue-600 transition-colors">
@@ -112,25 +112,25 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
           {/* Price Information */}
           <div className="flex items-center justify-between">
             <div>
-              {listing.currentBid ? (
-                <>
+              {listing.currentBid ?
+              <>
                   <div className="text-sm text-gray-500">Current Bid</div>
                   <div className="font-bold text-xl text-green-600">
                     {formatCurrency(listing.currentBid)}
                   </div>
-                </>
-              ) : (
-                <>
+                </> :
+
+              <>
                   <div className="text-sm text-gray-500">Price</div>
                   <div className="font-bold text-xl">
                     {formatCurrency(listing.price)}
                   </div>
                 </>
-              )}
+              }
             </div>
             
-            {listing.auctionEndDate && (
-              <div className="text-right">
+            {listing.auctionEndDate &&
+            <div className="text-right">
                 <div className="text-sm text-gray-500 flex items-center">
                   <Clock className="h-3 w-3 mr-1" />
                   Time Left
@@ -139,7 +139,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
                   {getTimeRemaining()}
                 </div>
               </div>
-            )}
+            }
           </div>
 
           {/* Key Metrics */}
@@ -185,20 +185,20 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing, onAddToWatchlist }) 
             <Button asChild className="flex-1">
               <Link to={`/listing/${listing.id}`}>View Details</Link>
             </Button>
-            {listing.currentBid ? (
-              <Button variant="outline" className="flex-1">
+            {listing.currentBid ?
+            <Button variant="outline" className="flex-1">
                 Place Bid
-              </Button>
-            ) : (
-              <Button variant="outline" className="flex-1">
+              </Button> :
+
+            <Button variant="outline" className="flex-1">
                 Make Offer
               </Button>
-            )}
+            }
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>);
+
 };
 
 export default ListingCard;
